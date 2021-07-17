@@ -157,10 +157,7 @@ private:
 			}
 			_cachedAshPile = ashPile;
 
-			if (a_ref->extraList.HasType<RE::ExtraTextDisplayData>()) {
-				return false;
-			}
-			return true;
+			return !a_ref->extraList.HasType<RE::ExtraTextDisplayData>();
 		}
 
 		return false;
