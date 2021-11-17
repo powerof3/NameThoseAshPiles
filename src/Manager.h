@@ -31,8 +31,8 @@ public:
 				names.emplace_back(value.pItem);
 			}
 		} else {
-			ini.SetValue("Ash Pile Names", "Name", defaultName.data(), "", false);		
-			
+			ini.SetValue("Ash Pile Names", "Name", defaultName.c_str(), "", false);
+
 			names.emplace_back(defaultName);
 		}
 
@@ -43,8 +43,9 @@ public:
 	{
 		std::string templateName;
 		if (names.size() > 1) {
-			auto rng = RNG::GetSingleton()->Generate<std::uint32_t>(0, static_cast<std::uint32_t>(names.size() - 1));
-			templateName = names[rng];
+			const auto size = static_cast<std::uint32_t>(names.size() - 1);
+
+			templateName = names[RNG::GetSingleton()->Generate<std::uint32_t>(0, size)];
 		} else {
 			templateName = names[0];
 		}
@@ -79,7 +80,7 @@ private:
 
 	std::vector<std::string> names;
 
-	std::string_view defaultName{ "[npc]'s [ashpile]" };
+	std::string defaultName{ "[npc]'s [ashpile]" };
 };
 
 class CrosshairRefManager : public RE::BSTEventSink<SKSE::CrosshairRefEvent>
