@@ -86,7 +86,6 @@ endif ()
 
 find_package(Boost MODULE REQUIRED)
 find_package(spdlog REQUIRED CONFIG)
-find_package(xbyak REQUIRED CONFIG)
 
 find_path(SIMPLEINI_INCLUDE_DIRS "ConvertUTF.c")
 
