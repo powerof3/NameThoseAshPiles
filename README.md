@@ -49,12 +49,12 @@ git submodule update --init --recursive
 ```
 cmake -B build -S . -DVCPKG_TARGET_TRIPLET=x64-windows-static-md
 ```
-Open build/NameThoseAshPiles.sln in Visual Studio to build dll.
+Open build/po3_NameThoseAshpiles.sln in Visual Studio to build dll.
 ### VR
 ```
 cmake -B build2 -S . -DVCPKG_TARGET_TRIPLET=x64-windows-static-md -DBUILD_SKYRIMVR=On
 ```
-Open build2/NameThoseAshPiles.sln in Visual Studio to build dll.
+Open build2/po3_NameThoseAshpiles.sln in Visual Studio to build dll.
 
 ## License
 [MIT](LICENSE)
