@@ -17,4 +17,9 @@ namespace logger = SKSE::log;
 using namespace std::literals;
 using RNG = SKSE::stl::RNG;
 
+namespace stl
+{
+    using namespace SKSE::stl;
+}
+
 #include "Version.h"
