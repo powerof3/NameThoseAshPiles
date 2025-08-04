@@ -1,13 +1,17 @@
+#include "Hooks.h"
 #include "Manager.h"
 
 void OnInit(SKSE::MessagingInterface::Message* a_msg)
 {
 	switch (a_msg->type) {
 	case SKSE::MessagingInterface::kPostLoad:
-		NameManager::GetSingleton()->LoadNames();
+		{
+			Manager::GetSingleton()->LoadNames();
+			Hooks::Install();
+		}
 		break;
-	case SKSE::MessagingInterface::kDataLoaded:
-		CrosshairRefManager::Register();
+	case SKSE::MessagingInterface::kPostPostLoad:
+		Manager::GetSingleton()->RequestAPI();
 		break;
 	default:
 		break;
@@ -22,7 +26,7 @@ extern "C" DLLEXPORT constinit auto SKSEPlugin_Version = []() {
 	v.AuthorName("powerofthree");
 	v.UsesAddressLibrary();
 	v.UsesUpdatedStructs();
-	v.CompatibleVersions({ SKSE::RUNTIME_LATEST });
+	v.CompatibleVersions({ SKSE::RUNTIME_SSE_LATEST });
 
 	return v;
 }();
@@ -41,7 +45,7 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a
 	const auto ver = a_skse->RuntimeVersion();
 	if (ver
 #	ifndef SKYRIMVR
-		< SKSE::RUNTIME_1_5_39
+		< SKSE::RUNTIME_SSE_1_5_39
 #	else
 		> SKSE::RUNTIME_VR_1_4_15_1
 #	endif
@@ -66,8 +70,8 @@ void InitializeLog()
 
 	auto log = std::make_shared<spdlog::logger>("global log"s, std::move(sink));
 
-	log->set_level(spdlog::level::info);
-	log->flush_on(spdlog::level::info);
+	log->set_level(spdlog::level::debug);
+	log->flush_on(spdlog::level::debug);
 
 	spdlog::set_default_logger(std::move(log));
 	spdlog::set_pattern("[%l] %v"s);
@@ -77,11 +81,13 @@ void InitializeLog()
 
 extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_skse)
 {
+	SKSE::Init(a_skse, false);
+
+	SKSE::AllocTrampoline(34);
+
 	InitializeLog();
 
 	logger::info("Game version : {}", a_skse->RuntimeVersion().string());
-
-	SKSE::Init(a_skse);
 
 	const auto messaging = SKSE::GetMessagingInterface();
 	messaging->RegisterListener(OnInit);
