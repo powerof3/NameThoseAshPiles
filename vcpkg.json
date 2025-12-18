@@ -1,6 +1,6 @@
 {
   "name": "namethoseashpiles",
-  "version-string": "5.0.0",
+  "version-string": "5.0.1",
   "description": "",
   "homepage": "",
   "license": "MIT",
@@ -10,11 +10,5 @@
     "spdlog",
     "xbyak"
   ],
-  "builtin-baseline": "300239058e33420acd153135b3f6e6b187828992",
-  "overrides": [
-    {
-      "name": "xbyak",
-      "version": "7.23.1"
-    }
-  ]
+  "builtin-baseline": "edffab1bcd2cb5b8c17d6ba34d5651ea0bf82979"
 }
